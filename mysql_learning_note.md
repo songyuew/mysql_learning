@@ -238,3 +238,65 @@ SELECT SUBSTR(plate_number,-4) AS plate_last_four FROM limo;
 
 `SUBSTR` and `SUBSTRING` will have the same effect
 
+### Replace
+
+```
+SELECT REPLACE('HellO World', 'o', '*');
+```
+
+### Reverse
+
+```
+SELECT REVERSE("TEXT TO REVERSE");
+```
+
+## Aggregate Functions
+
+### Count 
+
+#### Count number of rows
+
+```
+SELECT COUNT(*) FROM books;
+```
+
+#### Count unique rows
+
+```
+SELECT COUNT(DISTINCT author_fname) FROM books;
+```
+
+#### Count unique (multiple fields)
+
+```
+SELECT COUNT(DISTINCT author_fname,author_lname) FROM books;
+```
+
+This is equivalent to:
+```
+SELECT COUNT(DISTINCT CONCAT(author_fname,author_lname)) FROM books;
+```
+
+## Advanced Selection
+
+### Match pattern
+
+Select `limo` with plate number starting with `B`:
+
+```
+SELECT * FROM limo WHERE plate_number LIKE "B%"
+```
+
+- `LIKE "B%"`: Starting with `B`
+- `LIKE "%B%"`: Including `B`
+- `LIKE "%B"`: Ending in `B`
+
+### Check NULL
+
+```
+SELECT * FROM client WHERE agent IS NULL;
+```
+
+
+
+
