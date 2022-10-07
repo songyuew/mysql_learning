@@ -197,4 +197,44 @@ SOURCE <SQL_FILE_NAME>;
 
 ### Concat
 
+```
+SELECT CONCAT(author_fname," ",author_lname) AS author_fullname, title FROM books;
+```
+
+Returns this:
+
+```
++----------------------+-----------------------------------------------------+
+| author_fullname      | title                                               |
++----------------------+-----------------------------------------------------+
+| Jhumpa Lahiri        | The Namesake                                        |
+...
+```
+
+### Concat with separator
+
+```
+SELECT CONCAT_WS(' - ', title, author_fname, author_lname) FROM books;
+```
+
+Returns this:
+
+```
++------------------------------------------------------------------------+
+| CONCAT_WS(' - ', title, author_fname, author_lname)                    |
++------------------------------------------------------------------------+
+| The Namesake - Jhumpa - Lahiri                                         |
+...
+```
+
+### Substring
+
+Note: in SQL, string index start with `1`
+
+```
+SELECT SUBSTRING(plate_number,-4) AS plate_last_four FROM limo;
+SELECT SUBSTR(plate_number,-4) AS plate_last_four FROM limo;
+```
+
+`SUBSTR` and `SUBSTRING` will have the same effect
 
