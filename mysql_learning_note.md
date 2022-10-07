@@ -50,7 +50,7 @@ CREATE TABLE <TABLE_NAME>
     );
 ```
 
-for example:
+For example:
 
 ```
 CREATE TABLE limo
@@ -61,7 +61,7 @@ CREATE TABLE limo
     );
 ```
 
-do not allow insertation of `NULL` values:
+Do not allow insertation of `NULL` values:
 
 ```
 CREATE TABLE limo
@@ -72,7 +72,7 @@ CREATE TABLE limo
     );
 ```
 
-set default value if not provided at insertation:
+Set default value if not provided at insertation:
 
 
 ```
@@ -91,7 +91,7 @@ SHOW TABLES;
 SHOW COLUMNS FROM <TABLE_NAME>
 ```
 
-or:
+Or:
 
 ```
 DESC <TABLE_NAME>
@@ -99,7 +99,7 @@ DESC <TABLE_NAME>
 
 ### Manipulate column after creation
 
-modify `allow NULL` to `NOT NULL`: 
+Modify `allow NULL` to `NOT NULL`: 
 
 ```
 ALTER TABLE limo MODIFY passenger_seat INT NOT NULL;
@@ -109,10 +109,12 @@ ALTER TABLE limo MODIFY passenger_seat INT NOT NULL;
 
 Primary key is the unique identifier for each row in the table.
 
+`id` as primary key with auto-increment (1,2,3,...)
+
 ```
 CREATE TABLE limo
     (
-        vehicle_id INT NOT NULL,
+        vehicle_id INT NOT NULL AUTO_INCREMENT,
         plate_number VARCHAR(15) NOT NULL,
         type VARCHAR(50) NOT NULL,
         passenger_seat INT NOT NULL,
@@ -137,4 +139,62 @@ VALUES('BN863','Honda Odyssey',7),
 ('BK7659','Honda Odyssey',7),
 ('NJ9683','Honda Odyssey',7);
 ```
+
+## Select Entries from Table
+
+### Select all rows with `cat_id` and `name` columns only
+
+```
+SELECT cat_id, name FROM cat;
+```
+
+### Select filtered rows
+
+```
+SELECT * FROM cat WHERE age=4;
+SELECT * FROM cat WHERE age>4;
+```
+
+### Select with alias for column name
+
+When combining multiple tables, we want the column name to be unified. An alias can be added when selecting the data:
+
+```
+SELECT cat_id AS id, name FROM cat;
+```
+
+## Update Entry
+
+```
+UPDATE cat SET age=8 WHERE name="Egg";
+```
+
+## Delete Entry
+
+### Delete specific row
+
+```
+DELETE FROM cat WHERE name="Egg";
+```
+
+### Delete all rows in the table
+
+```
+DELETE FROM cat;
+```
+
+## Run SQL File
+
+Write SQL codes in a `.sql` file
+
+```
+USE <DB_NAME>;
+
+SOURCE <SQL_FILE_NAME>;
+```
+
+## MySQL String Functions
+
+### Concat
+
 
