@@ -338,12 +338,39 @@ SELECT * FROM limo WHERE plate_number LIKE "B%"
 SELECT * FROM client WHERE agent IS NULL;
 ``` 
 
+### Check membership
+
+Check whether an entry is included in another table.
+
+If not included, return True:
+
+```
+SELECT employee_id FROM Employees 
+    WHERE employee_id NOT IN (SELECT employee_id FROM Salaries)
+```
+
+If included, return True:
+
+```
+SELECT employee_id FROM Employees 
+    WHERE employee_id NOT IN (SELECT employee_id FROM Salaries)
+```
+
+Note: this will only work if the table after `NOT IN` has only one column, which is the one we wish to check.
+
 ## Two Table Operations
 
 ### Union
 
 ![union](/note_img/union.png)
 
-```
+We have to tables, `Employees` and `Salaries`, we wish to get the `employee_id` that appears in one table but no in the other.
 
 ```
+SELECT employee_id FROM Employees WHERE employee_id NOT IN (SELECT employee_id FROM Salaries)
+UNION 
+SELECT employee_id FROM Salaries WHERE employee_id NOT IN (SELECT employee_id FROM Employees)
+ORDER BY employee_id;
+```
+
+(Refer to question 1965 from Leetcode)
