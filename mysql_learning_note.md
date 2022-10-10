@@ -277,6 +277,47 @@ This is equivalent to:
 SELECT COUNT(DISTINCT CONCAT(author_fname,author_lname)) FROM books;
 ```
 
+### Group by
+
+Group several rows together by a shared property
+
+Get the number of books written by each author:
+
+```
+SELECT CONCAT(author_fname,author_lname) AS fullname,COUNT(*) FROM books GROUP BY CONCAT(author_fname,author_lname);
+```
+
+Returns this:
+
+```
++-----------------------------------+----------+
+| fullname                          | COUNT(*) |
++-----------------------------------+----------+
+| JhumpaLahiri                      |        2 |
+| NeilGaiman                        |        3 |
+...
+```
+
+This is equivalent to:
+
+```
+SELECT CONCAT(author_fname,author_lname) AS fullname,COUNT(*) FROM books GROUP BY author_fname,author_lname;
+```
+
+### Min & Max
+
+Get minimum:
+
+```
+SELECT MIN(released_year) FROM books;
+```
+
+Get maximum:
+
+```
+SELECT MAX(released_year) FROM books;
+```
+
 ## Advanced Selection
 
 ### Match pattern
@@ -295,8 +336,14 @@ SELECT * FROM limo WHERE plate_number LIKE "B%"
 
 ```
 SELECT * FROM client WHERE agent IS NULL;
+``` 
+
+## Two Table Operations
+
+### Union
+
+![union](/note_img/union.png)
+
 ```
 
-
-
-
+```
