@@ -358,6 +358,18 @@ SELECT employee_id FROM Employees
 
 Note: this will only work if the table after `NOT IN` has only one column, which is the one we wish to check.
 
+### Selection with subquery (nested queries)
+
+```
+SELECT * FROM orders WHERE customer_id = 
+    (SELECT id FROM customers WHERE first_name="BOY");
+```
+
+Problems:
+
+- Only work if the subquery returns one value
+- Unable to concat multiple tables (from the code above, we can only see the information in the `orders` table)
+
 ## Two Table Operations
 
 ### Union
@@ -374,3 +386,84 @@ ORDER BY employee_id;
 ```
 
 (Refer to question 1965 from Leetcode)
+
+## Data Relationships
+
+- One-One
+
+    For example, `user` and `review`, as one user can only leave review once, and a unique review can be traced back to a specific user.
+
+- One-Many
+
+    For example, `book` and `review`, as one book could have thousands of reviews, but all the reviews are for a specific books.
+    
+- Many-Many
+
+    For example, `author` and `book`, as one author can write multiple books and one book can be written by multiple authors.
+    
+Foreign key: establish the association between separated tables.
+
+Primary key: make the rows in each table is unique.
+
+### Foreign Key
+
+Analyze this code:
+
+```
+CREATE TABLE orders(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    order_date DATE,
+    amount DECIMAL(8,2),
+    customer_id INT,
+    FOREIGN KEY(customer_id) REFERENCES customers(id)
+);
+```
+
+- Foreign key has to be specified when creating the table
+- `customers(id)` means the foreign key is linked to the `id` title in `customers` table
+- There will be a failure if we try to add a row to `orders`, where `customer_id` does not exist as `id` in `customers`
+
+### Cross join
+
+Cross-joining table `customers` and `orders`:
+
+```
+SELECT * FROM customers, orders;
+```
+
+For example, we have table `A` and `B`.
+
+Cross join will concat each row in `A`, to all rows in `B`.
+
+Contents in `A`:
+
+TitleA1|TitleA2
+---|---
+A1-1|A1-2
+A2-1|A2-2
+A3-1|A3-2
+A4-1|A4-2
+A5-1|A5-2
+
+Contenst in `B`:
+
+TitleB1|TitleB2
+---|---
+B1-1|B1-2
+B2-1|B2-2
+B3-1|B3-2
+B4-1|B4-2
+B5-1|B5-2
+
+After joining:
+
+TitleA1|TitleA2|TitleB1|TitleB2
+---|---|---|---
+A1-1|A1-2|B1-1|B1-2
+A1-1|A1-2|B2-1|B2-2
+A1-1|A1-2|B3-1|B3-2
+A1-1|A1-2|B4-1|B4-2
+A1-1|A1-2|B5-1|B5-2
+A2-1|A2-2|B1-1|B1-2
+...|...|...|...
+    
