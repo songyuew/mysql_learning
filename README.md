@@ -445,7 +445,7 @@ A3-1|A3-2
 A4-1|A4-2
 A5-1|A5-2
 
-Contenst in `B`:
+Contents in `B`:
 
 TitleB1|TitleB2
 ---|---
@@ -466,4 +466,15 @@ A1-1|A1-2|B4-1|B4-2
 A1-1|A1-2|B5-1|B5-2
 A2-1|A2-2|B1-1|B1-2
 ...|...|...|...
+
+### Inner join
+
+Instead of simply joining the rows horizontally, we can join the rows where certain key is matched.
+
+```
+SELECT * FROM customers
+    JOIN orders ON orders.customer_id = customers.id;
+```
+
+![inner_join](./note_img/inner_join.png)
     
