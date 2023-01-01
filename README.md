@@ -250,7 +250,7 @@ SELECT REPLACE('HellO World', 'o', '*');
 SELECT REVERSE("TEXT TO REVERSE");
 ```
 
-## Aggregate Functions
+## Aggregation Functions
 
 ### Count 
 
@@ -316,6 +316,15 @@ Get maximum:
 
 ```
 SELECT MAX(released_year) FROM books;
+```
+
+### Sum
+
+Aggregates spendings by each customer:
+
+```
+SELECT customer_id, SUM(amount) FROM orders
+    GROUP BY customer_id;
 ```
 
 ## Advanced Selection
@@ -471,10 +480,122 @@ A2-1|A2-2|B1-1|B1-2
 
 Instead of simply joining the rows horizontally, we can join the rows where certain key is matched.
 
+![inner_join](./note_img/inner_join.png)
+
 ```
 SELECT * FROM customers
     JOIN orders ON orders.customer_id = customers.id;
 ```
 
-![inner_join](./note_img/inner_join.png)
-    
+Returns this:
+
+```
++----+------------+-----------+------------------+----+------------+--------+-------------+
+| id | first_name | last_name | email            | id | order_date | amount | customer_id |
++----+------------+-----------+------------------+----+------------+--------+-------------+
+|  1 | Boy        | George    | george@gmail.com |  1 | 2016-02-10 |  99.99 |           1 |
+|  1 | Boy        | George    | george@gmail.com |  2 | 2017-11-11 |  35.50 |           1 |
+|  2 | George     | Michael   | gm@gmail.com     |  3 | 2014-12-12 | 800.67 |           2 |
+|  2 | George     | Michael   | gm@gmail.com     |  4 | 2015-01-03 |  12.50 |           2 |
+|  5 | Bette      | Davis     | bette@aol.com    |  5 | 1999-04-11 | 450.25 |           5 |
+|  4 | Blue       | Steele    | blue@gmail.com   |  6 | 2019-05-10 | 850.00 |           4 |
++----+------------+-----------+------------------+----+------------+--------+-------------+
+```
+
+Inner join with `GROUP BY`:
+
+```
+SELECT first_name,last_name,SUM(amount) FROM customers 
+    JOIN orders ON orders.customer_id = customers.id
+    GROUP BY first_name, last_name;
+```
+
+Returns this:
+
+```
++------------+-----------+-------------+
+| first_name | last_name | SUM(amount) |
++------------+-----------+-------------+
+| Boy        | George    |      135.49 |
+| George     | Michael   |      813.17 |
+| Bette      | Davis     |      450.25 |
+| Blue       | Steele    |      850.00 |
++------------+-----------+-------------+
+```
+
+### Left join
+
+Anything from the left side, plus all overlapped information.
+
+![left_join](./note_img/left_join.png)
+
+```
+SELECT first_name, last_name, order_date, amount FROM customers
+    LEFT JOIN orders ON orders.customer_id = customers.id;
+```
+
+Returns this:
+
+```
++------------+-----------+------------+--------+
+| first_name | last_name | order_date | amount |
++------------+-----------+------------+--------+
+| Boy        | George    | 2017-11-11 |  35.50 |
+| Boy        | George    | 2016-02-10 |  99.99 |
+| George     | Michael   | 2015-01-03 |  12.50 |
+| George     | Michael   | 2014-12-12 | 800.67 |
+| David      | Bowie     | NULL       |   NULL |
+| Blue       | Steele    | 2019-05-10 | 850.00 |
+| Bette      | Davis     | 1999-04-11 | 450.25 |
++------------+-----------+------------+--------+
+```
+
+Left join with `GROUP BY`:
+
+```
+SELECT first_name, last_name, IFNULL(SUM(amount),0) AS total_spending FROM customers 
+    LEFT JOIN orders ON customers.id = orders.customer_id 
+    GROUP BY first_name, last_name 
+    ORDER BY total_spending;
+```
+
+`IFNULL()` function accepts 2 arguments, the first will be returned if the field is not `NULL`, the second will be returned in case it is `NULL`.
+
+Returns this:
+
+```
++------------+-----------+----------------+
+| first_name | last_name | total_spending |
++------------+-----------+----------------+
+| David      | Bowie     |           0.00 |
+| Boy        | George    |         135.49 |
+| Bette      | Davis     |         450.25 |
+| George     | Michael   |         813.17 |
+| Blue       | Steele    |         850.00 |
++------------+-----------+----------------+
+```
+
+### Right join
+
+Anything from the right side, plus all overlapped information.
+
+![right_join](./note_img/right_join.png)
+
+### On delete cascade
+
+Due to the property of `FOREIGN KEY`, it is non-trivial to delete a customer, who has order history.
+
+The solution is to set on delete cascade to the `orders` table. Therefore, when we attempt to delete a customer, the associated orders will
+also be deleted automatically.
+
+```
+CREATE TABLE orders (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    order_date DATE,
+    amount DECIMAL(8 , 2 ),
+    customer_id INT,
+    FOREIGN KEY (customer_id)
+        REFERENCES customers (id)
+        ON DELETE CASCADE
+);
+```

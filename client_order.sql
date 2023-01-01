@@ -8,13 +8,25 @@ CREATE TABLE customers(
     last_name VARCHAR(100),
     email VARCHAR(100)
 );
-CREATE TABLE orders(
-    id INT AUTO_INCREMENT PRIMARY KEY,
+
+-- create table with on delete cascade foreign key
+CREATE TABLE orders (
+    id INT PRIMARY KEY AUTO_INCREMENT,
     order_date DATE,
-    amount DECIMAL(8,2),
+    amount DECIMAL(8 , 2 ),
     customer_id INT,
-    FOREIGN KEY(customer_id) REFERENCES customers(id)
+    FOREIGN KEY (customer_id)
+        REFERENCES customers (id)
+        ON DELETE CASCADE
 );
+
+-- CREATE TABLE orders(
+--     id INT AUTO_INCREMENT PRIMARY KEY,
+--     order_date DATE,
+--     amount DECIMAL(8,2),
+--     customer_id INT,
+--     FOREIGN KEY(customer_id) REFERENCES customers(id)
+-- );
 
 INSERT INTO customers (first_name, last_name, email) 
 VALUES ('Boy', 'George', 'george@gmail.com'),
