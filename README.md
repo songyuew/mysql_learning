@@ -383,7 +383,7 @@ Problems:
 
 ### Union
 
-![union](/note_img/union.png)
+![union](/note_img/union.png =300x200)
 
 We have to tables, `Employees` and `Salaries`, we wish to get the `employee_id` that appears in one table but no in the other.
 
@@ -480,7 +480,7 @@ A2-1|A2-2|B1-1|B1-2
 
 Instead of simply joining the rows horizontally, we can join the rows where certain key is matched.
 
-![inner_join](./note_img/inner_join.png)
+![inner_join](./note_img/inner_join.png =300x200)
 
 ```
 SELECT * FROM customers
@@ -527,7 +527,7 @@ Returns this:
 
 Anything from the left side, plus all overlapped information.
 
-![left_join](./note_img/left_join.png)
+![left_join](./note_img/left_join.png =300x200)
 
 ```
 SELECT first_name, last_name, order_date, amount FROM customers
@@ -579,7 +579,7 @@ Returns this:
 
 Anything from the right side, plus all overlapped information.
 
-![right_join](./note_img/right_join.png)
+![right_join](./note_img/right_join.png =300x200)
 
 ### On delete cascade
 
