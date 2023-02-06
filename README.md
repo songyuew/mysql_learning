@@ -105,6 +105,18 @@ Modify `allow NULL` to `NOT NULL`:
 ALTER TABLE limo MODIFY passenger_seat INT NOT NULL;
 ```
 
+Add new column:
+
+`ALTER TABLE Branch ADD branch_phone INT (12)`
+
+Drop a column:
+
+`ALTER TABLE Branch DROP branch_phone`
+
+Add constraint:
+
+`ALTER TABLE Branch ADD PRIMARY KEY branch_id`
+
 ## Primary Key
 
 Primary key is the unique identifier for each row in the table.
