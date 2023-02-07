@@ -152,6 +152,15 @@ VALUES('BN863','Honda Odyssey',7),
 ('NJ9683','Honda Odyssey',7);
 ```
 
+### Insert directly from file
+
+```
+LOAD DATA LOCAL INFILE 'text.txt'
+INTO TABLE Branch
+FIELDS TERMINATED BY ';'
+LINES TERMINATED BY '\n';
+```
+
 ## Select Entries from Table
 
 ### Select all rows with `cat_id` and `name` columns only
