@@ -362,6 +362,12 @@ SELECT * FROM limo WHERE plate_number LIKE "B%"
 - `LIKE "%B%"`: Including `B`
 - `LIKE "%B"`: Ending in `B`
 
+### Use regular expression
+
+```
+SELECT * FROM limo WHERE plate_number REGEXP '[A-Z][0-9]{3}$'; 
+```
+
 ### Check NULL
 
 ```
