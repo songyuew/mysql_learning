@@ -348,6 +348,29 @@ SELECT customer_id, SUM(amount) FROM orders
     GROUP BY customer_id;
 ```
 
+### Filtering for grouping with aggregation functions
+
+Use the `HAVING` clause:
+
+```
+SELECT branch_id, AVG(balance) 
+FROM Account
+GROUP BY branch_id
+HAVING AVG(balance) >= 650;
+```
+
+Firstly, the grouping will be executed, followed by aggregation within each group (the `HAVING` clause). Finally, 
+filtering will be conducted to drop unwanted groups.
+
+Note: this code should also work:
+
+```
+SELECT branch_id, AVG(balance) 
+FROM Account
+GROUP BY branch_id
+HAVING branch_id = "B1";
+```
+
 ## Advanced Selection
 
 ### Match pattern
