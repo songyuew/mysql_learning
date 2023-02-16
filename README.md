@@ -429,6 +429,33 @@ Problems:
 - Only work if the subquery returns one value
 - Unable to concat multiple tables (from the code above, we can only see the information in the `orders` table)
 
+### Use of derived table
+
+```
+SELECT E.name, E.salary, A.department_id
+FROM 
+(SELECT MAX(E.salary) maxSal, W.department_id
+FROM Employees E, Works_in W
+WHERE E.employee_id = W.employee_id               
+GROUP BY W.department_id) A,
+Works_in W, Employees E 
+WHERE A.department_id = W.department_id AND
+              W.employee_id = E.employee_id AND 
+              E.salary = A.maxSal
+```
+
+The following code will be executed first and an alias `A` will be created for this derived table:
+
+```
+SELECT MAX(E.salary) maxSal, W.department_id
+FROM Employees E, Works_in W
+WHERE E.employee_id = W.employee_id               
+GROUP BY W.department_id
+```
+
+Then the table will be joint with other tables to acquire more data.
+
+
 ## Two Table Operations
 
 ### Union
