@@ -677,3 +677,74 @@ CREATE TABLE orders (
         ON DELETE CASCADE
 );
 ```
+
+## View
+
+Views provide a mechanism to hide certain data from the view of certain users.
+
+### Create a view
+
+```
+CREATE VIEW account_opening_branch AS
+(SELECT account_id, branch_id FROM Account);
+```
+
+### Use a view
+
+Data in a view can be queried like a querying an ordinary table:
+
+```
+SELECT * FROM account_opening_branch;
+```
+
+Returns this:
+
+```
++------------+-----------+
+| account_id | branch_id |
++------------+-----------+
+| A1         | B1        |
+| A4         | B1        |
+| A2         | B2        |
+| A3         | B2        |
++------------+-----------+
+```
+
+The `balance` field is hidden.
+
+
+### Delete a view
+
+```
+DROP VIEW view_name;  
+```
+
+## Authorization
+
+Basic syntax:
+
+```
+GRANT <priviledge list>
+ON <table name or view name>
+TO <user/role list>
+```
+
+Examples:
+
+`GRANT SELECT ON Departments TO Johnson, Brown`
+
+`GRANT UPDATE (budget) ON Departments TO Johnson`
+
+## Assertation
+
+Used to maintain certain conditions before and after a new entry is added.
+
+```
+CREATE ASSERTION EmpsNoLessThanDepts
+CHECK (
+(SELECT COUNT (*) FROM Departments) <=
+(SELECT COUNT (*) FROM Employees)
+);
+```
+
+Note: this should be used frequently as checking before each `INSERT` operation significantly affects performance.
