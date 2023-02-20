@@ -462,7 +462,7 @@ Then the table will be joint with other tables to acquire more data.
 
 <img src="/note_img/union.png" alt="union" style="width:300px; height:200px;"/>
 
-We have to tables, `Employees` and `Salaries`, we wish to get the `employee_id` that appears in one table but no in the other.
+We have two tables, `Employees` and `Salaries`, we wish to get the `employee_id` that appears in one table but no in the other.
 
 ```
 SELECT employee_id FROM Employees WHERE employee_id NOT IN (SELECT employee_id FROM Salaries)
@@ -472,6 +472,17 @@ ORDER BY employee_id;
 ```
 
 (Refer to question 1965 from Leetcode)
+
+### Except
+
+We have two tables, `Student` and `Submit`, we wish to get the `student_id` for students that have not submitted 
+(exist in one table but not in the other).
+
+```
+SELECT student_id FROM Student
+EXCEPT
+SELECT student_id FROM Submit;
+```
 
 ## Data Relationships
 
