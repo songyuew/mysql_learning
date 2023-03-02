@@ -473,6 +473,19 @@ ORDER BY employee_id;
 
 (Refer to question 1965 from Leetcode)
 
+We can add a "second condition" for `ORDER BY` clause, in case the first condition returns a tie:
+
+```
+SELECT I.iID,I.iname FROM Ingredient I, Recipe R 
+WHERE R.iID = I.iID AND 
+R.dID IN (SELECT D.dID FROM Dish D WHERE D.cuisine = "Chinese") 
+GROUP BY I.iID 
+ORDER BY COUNT(R.dID) DESC, R.iID ASC 
+LIMIT 3
+```
+
+`LIMIT` will limit the output to first `n` rows only.
+
 ### Except
 
 We have two tables, `Student` and `Submit`, we wish to get the `student_id` for students that have not submitted 
